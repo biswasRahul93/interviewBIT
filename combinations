@@ -1,0 +1,60 @@
+
+Given two integers n and k, return all possible combinations of k numbers out of 1 2 3 ... n.
+
+Make sure the combinations are sorted.
+
+To elaborate,
+
+Within every entry, elements should be sorted. [1, 4] is a valid entry while [4, 1] is not.
+Entries should be sorted within themselves.
+Example :
+If n = 4 and k = 2, a solution is:
+
+[
+  [1,2],
+  [1,3],
+  [1,4],
+  [2,3],
+  [2,4],
+  [3,4],
+]
+
+
+Code - 
+
+void back(int start, vector<int>& row, vector< vector<int> >& result, vector<int>& A, int k)
+{
+    // base condition 
+    if(row.size() == k)
+    {
+        result.emplace_back(row);
+        return; 
+    }
+    // condition to stop it from going over
+    if(start >= A.size())
+        return; 
+    // breaking it into smaller parts
+    row.emplace_back(A[start]);
+    back(start+1, row, result, A, k);
+    // debugging
+    // for(int i = 0; i< row.size(); i++)
+        // cout << row[i] << " ";
+    // cout << endl;
+    row.pop_back();
+    back(start+1, row, result, A, k);
+    
+}
+
+
+vector<vector<int> > Solution::combine(int n, int k) {
+    vector <int> A; 
+    for (int i = 1; i<=n ; i++)
+        {
+            A.emplace_back(i);
+        }
+    vector <vector <int> > result;
+    vector <int> row;
+    
+    back(0, row, result, A, k);
+    return result;
+}
